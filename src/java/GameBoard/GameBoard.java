@@ -14,28 +14,13 @@ package GameBoard;
 //        System.out.println("|   |   |   |   |   |   |   |   |   |   |");
 //        System.out.println("|___|___|___|___|___|___|___|___|___|___|");
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GameBoard {
-    public String gameBoard;
-
-    public ArrayList<String> gameBoardRowList;
-
-    public ArrayList<ArrayList <String>> gameBoardList;
-
-    public GameBoard()
-    {
-        gameBoardList = this.gameBoardListCreate();
-
-    }
-
     // creates a row of squares in the gameBoard
-    public ArrayList<String> gameBoardRowListCreate()
+    private ArrayList<String> gameBoardRowListCreate()
     {
         ArrayList<String> result = new ArrayList<>();
         // for loop to generate the start
@@ -56,7 +41,7 @@ public class GameBoard {
     }
 
     // method to join the array list back to a string of blocks.
-    public String joinArrayList(ArrayList<String> gameBoardRowList, int index)
+    private String joinArrayList(ArrayList<String> gameBoardRowList, int index)
     {
         List<String> gameBoardTopList = gameBoardRowList.subList(0, 9);
         List<String> gameBoardMidList = gameBoardRowList.subList(10, 19);
@@ -82,42 +67,29 @@ public class GameBoard {
         return result;
     }
 
-    public String gameBoardCreate()
+    // method to take a list of the gameboard and join it to a string
+    public String gameBoardStringCreate(ArrayList<ArrayList <String>> arr)
     {
         String result = "";
         for (int i = 0; i < 7; i++)
         {
-            result = result + this.joinArrayList(gameBoardList.get(i), i) + "\n";
+            result = result + this.joinArrayList(arr.get(i), i) + "\n";
         }
         return result;
     }
 
     // this updates the middle item in a block in a row
-    // column should be a number 1 - 10 for the blocks in a row
-    public void gameBoardRowListUpdate(int column, String item)
+    // row should be 1 - 7 and column 1 - 9
+    public void gameBoardListUpdate(ArrayList<ArrayList <String>> arr, int row, int col, String item)
     {
-        column += 10;
-        String[] blockArray = gameBoardRowList.get(column).split("");
-        blockArray[2] = item;
-        String updatedBlock = String.join("", blockArray);
-        gameBoardRowList.set(column, updatedBlock);
+        ArrayList<String> updateRow = arr.get(row);
+        updateRow.set(col + 9, "| " + item + " |");
     }
 
-    public String getGameBoard() {
-        return gameBoard;
+    // remove item from the gameBoardList
+    public void gameBoardListRemove(ArrayList<ArrayList <String>> arr, int row, int col)
+    {
+        ArrayList<String> updateRow = arr.get(row);
+        updateRow.set(col + 9, "|   |");
     }
-
-    public ArrayList<String> getGameBoardRowList() {
-        return gameBoardRowList;
-    }
-
-//    public ArrayList<String> getGameBoardList() {
-//        return gameBoardList;
-//    }
-
-    public void setGameBoard(String gameBoard) {
-        this.gameBoard = gameBoard;
-    }
-
-
 }

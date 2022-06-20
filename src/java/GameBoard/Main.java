@@ -13,6 +13,16 @@ public class Main
     public static void main(String[] args)
     {
         GameBoard board = new GameBoard();
-        System.out.println(board.gameBoardCreate());
+        ArrayList<ArrayList <String>> boardArr = board.gameBoardListCreate();
+        String boardStr = board.gameBoardStringCreate(boardArr);
+        board.gameBoardListUpdate(boardArr, 1, 1, "A");
+        System.out.println(boardArr);
+        boardStr = board.gameBoardStringCreate(boardArr);
+        System.out.println(boardStr);
+
+        board.gameBoardListRemove(boardArr, 1, 1);
+        System.out.println(boardArr);
+        boardStr = board.gameBoardStringCreate(boardArr);
+        System.out.println(boardStr);
     }
 }

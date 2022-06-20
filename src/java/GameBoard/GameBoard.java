@@ -1,18 +1,18 @@
 package GameBoard;
 
-//        System.out.println(" ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ");
-//        System.out.println("|   | 😀 |   |   |   |   |   |   |   |   |");
-//        System.out.println("|___|___|___|___|___|___|___|___|___|___|");
-//        System.out.println("|   |   |   |   |   |   |   |   |   |   |");
-//        System.out.println("|___|___|___|___|___|___|___|___|___|___|");
-//        System.out.println("|   |   |   |   |   |   |   |   |   |   |");
-//        System.out.println("|___|___|___|___|___|___|___|___|___|___|");
-//        System.out.println("|   |   |   |   |   |   |   |   |   |   |");
-//        System.out.println("|___|___|___|___|___|___|___|___|___|___|");
-//        System.out.println("|   |   |   |   |   |   |   |   |   |   |");
-//        System.out.println("|___|___|___|___|___|___|___|___|___|___|");
-//        System.out.println("|   |   |   |   |   |   |   |   |   |   |");
-//        System.out.println("|___|___|___|___|___|___|___|___|___|___|");
+//     ___ ___ ___ ___ ___ ___ ___ ___ ___ ___
+//    |   |   |   |   |   |   |   |   |   |   |
+//    |___|___|___|___|___|___|___|___|___|___|
+//    |   |   |   |   |   |   |   |   |   |   |
+//    |___|___|___|___|___|___|___|___|___|___|
+//    |   |   |   |   |   |   |   |   |   |   |
+//    |___|___|___|___|___|___|___|___|___|___|
+//    |   |   |   |   |   |   |   |   |   |   |
+//    |___|___|___|___|___|___|___|___|___|___|
+//    |   |   |   |   |   |   |   |   |   |   |
+//    |___|___|___|___|___|___|___|___|___|___|
+//    |   |   |   |   |   |   |   |   |   |   |
+//    |___|___|___|___|___|___|___|___|___|___|
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,17 +23,28 @@ public class GameBoard {
     private ArrayList<String> gameBoardRowListCreate()
     {
         ArrayList<String> result = new ArrayList<>();
-        // for loop to generate the start
-        // for loop to generate the middle
-        // for loop to generate the bottom
-        String top = " ___ ";
-        String middle = "|   |";
-        String bottom = "|___|";
+
+        // first column is different then the rest
+        String topStart = " ___ ";
+        String middleStart = "|   |";
+        String bottomStart = "|___|";
+
+        String topMain = "___ ";
+        String middleMain = "   |";
+        String bottomMain = "___|";
         for (int i = 0; i < 10; i++)
         {
-            result.add(top);
-            result.add(middle);
-            result.add(bottom);
+            if (i == 0)
+            {
+                result.add(topStart);
+                result.add(middleStart);
+                result.add(bottomStart);
+            }else
+            {
+                result.add(topMain);
+                result.add(middleMain);
+                result.add(bottomMain);
+            }
         }
         Collections.sort(result);
 
@@ -43,24 +54,30 @@ public class GameBoard {
     // method to join the array list back to a string of blocks.
     private String joinArrayList(ArrayList<String> gameBoardRowList, int index)
     {
-        List<String> gameBoardTopList = gameBoardRowList.subList(0, 9);
-        List<String> gameBoardMidList = gameBoardRowList.subList(10, 19);
-        List<String> gameBoardBotList = gameBoardRowList.subList(20, 29);
+        // Items that go to the first column
+        String startTop = gameBoardRowList.get(9);
+        String startMiddle = gameBoardRowList.get(28);
+        String startBottom = gameBoardRowList.get(29);
+
+        List<String> gameBoardTopList = gameBoardRowList.subList(10, 18);
+        List<String> gameBoardMidList = gameBoardRowList.subList(0, 8);
+        List<String> gameBoardBotList = gameBoardRowList.subList(19, 27);
 
         String gameBoardTop = String.join("", gameBoardTopList);
         String gameBoardMid = String.join("", gameBoardMidList);
         String gameBoardBot = String.join("", gameBoardBotList);
 
         // only the top row needs to have a top.
-        if (index == 0) return gameBoardTop + "\n" + gameBoardMid + "\n" + gameBoardBot;
-        else return gameBoardMid + "\n" + gameBoardBot;
+        if (index == 0) return startTop + gameBoardTop + "\n" + startMiddle + gameBoardMid + "\n" + startBottom + gameBoardBot + "\n";
+        else if (index == 6) return startMiddle + gameBoardMid + "\n" + startBottom + gameBoardBot;
+        else return startMiddle + gameBoardMid + "\n" + startBottom + gameBoardBot + "\n";
     }
 
     // method to create the list of the gameBoard
     public ArrayList gameBoardListCreate()
     {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 7; i++)
         {
             result.add(gameBoardRowListCreate());
         }
@@ -73,7 +90,7 @@ public class GameBoard {
         String result = "";
         for (int i = 0; i < 7; i++)
         {
-            result = result + this.joinArrayList(arr.get(i), i) + "\n";
+            result = result + this.joinArrayList(arr.get(i), i);
         }
         return result;
     }
@@ -82,14 +99,30 @@ public class GameBoard {
     // row should be 1 - 7 and column 1 - 9
     public void gameBoardListUpdate(ArrayList<ArrayList <String>> arr, int row, int col, String item)
     {
-        ArrayList<String> updateRow = arr.get(row);
-        updateRow.set(col + 9, "| " + item + " |");
+        // first column is different then the rest
+        if (col == 0)
+        {
+            ArrayList<String> updateRow = arr.get(row);
+            updateRow.set(28, "| " + item + " |");
+        } else
+        {
+            ArrayList<String> updateRow = arr.get(row);
+            updateRow.set(col - 1, " " + item + " |");
+        }
     }
 
     // remove item from the gameBoardList
     public void gameBoardListRemove(ArrayList<ArrayList <String>> arr, int row, int col)
     {
-        ArrayList<String> updateRow = arr.get(row);
-        updateRow.set(col + 9, "|   |");
+        // first column is different then the rest
+        if (col == 0)
+        {
+            ArrayList<String> updateRow = arr.get(row);
+            updateRow.set(28, "|   |");
+        } else
+        {
+            ArrayList<String> updateRow = arr.get(row);
+            updateRow.set(col - 1, "   |");
+        }
     }
 }

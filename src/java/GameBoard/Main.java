@@ -14,15 +14,15 @@ public class Main
     {
         GameBoard board = new GameBoard();
         ArrayList<ArrayList <String>> boardArr = board.gameBoardListCreate();
-        String boardStr = board.gameBoardStringCreate(boardArr);
+        String boardStr;
         board.gameBoardListUpdate(boardArr, 1, 1, "A");
         System.out.println(boardArr);
         boardStr = board.gameBoardStringCreate(boardArr);
         System.out.println(boardStr);
 
-        board.gameBoardListRemove(boardArr, 1, 1);
-        System.out.println(boardArr);
-        boardStr = board.gameBoardStringCreate(boardArr);
-        System.out.println(boardStr);
+//        board.gameBoardListRemove(boardArr, 1, 1);
+//        System.out.println(boardArr);
+//        boardStr = board.gameBoardStringCreate(boardArr);
+//        System.out.println(boardStr);
     }
 }

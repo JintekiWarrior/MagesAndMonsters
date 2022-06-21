@@ -14,6 +14,7 @@ package GameBoard;
 //    |   |   |   |   |   |   |   |   |   |   |
 //    |___|___|___|___|___|___|___|___|___|___|
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -99,6 +100,8 @@ public class GameBoard {
     // row should be 1 - 7 and column 1 - 9
     public void gameBoardListUpdate(ArrayList<ArrayList <String>> arr, int row, int col, String item)
     {
+        if (row < 0 || row > 6) System.out.println("Row out of bounds");
+        if (col < 0 || col > 8) System.out.println("Column is out of bounds");
         // first column is different then the rest
         if (col == 0)
         {
@@ -124,5 +127,21 @@ public class GameBoard {
             ArrayList<String> updateRow = arr.get(row);
             updateRow.set(col - 1, "   |");
         }
+    }
+
+    // Checks whether a block on the gameBoard is empty
+    public boolean isGameBoardItem(ArrayList<ArrayList <String>> arr, int row, int col)
+    {
+        if (col == 0)
+        {
+            ArrayList<String> checkRow = arr.get(row);
+            String[] elementArr = checkRow.get(28).split("");
+            String check = (String) Array.get(elementArr, 2);
+            return !check.equals(" ");
+        }
+        ArrayList<String> checkRow = arr.get(row);
+        String[] elementArr = checkRow.get(col - 1).split("");
+        String check = (String) Array.get(elementArr, 1);
+        return !check.equals(" ");
     }
 }

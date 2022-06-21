@@ -132,4 +132,35 @@ class GameBoardTest {
         actual = board.gameBoardStringCreate(boardList);
         assertEquals(expected, actual);
     }
+
+    @Test
+    void gameBoardItemCheck()
+    {
+        // Check if true if item is in array
+        boolean expected;
+        boolean actual;
+        ArrayList<ArrayList <String>> boardList = board.gameBoardListCreate();
+        board.gameBoardListUpdate(boardList, 1, 4, "A");
+        expected = true;
+        actual = board.isGameBoardItem(boardList, 1, 4);
+        assertEquals(expected, actual);
+
+        // Check for false if item is not in array
+        board.gameBoardListRemove(boardList, 1, 4);
+        expected = false;
+        actual = board.isGameBoardItem(boardList, 1, 4);
+        assertEquals(expected, actual);
+
+        // Check for true if column is 0
+        board.gameBoardListUpdate(boardList, 1, 0, "F");
+        expected = true;
+        actual = board.isGameBoardItem(boardList, 1, 0);
+        assertEquals(expected, actual);
+
+        // Check for false if item is not in array and column is 0
+        board.gameBoardListRemove(boardList, 1, 0);
+        expected = false;
+        actual = board.isGameBoardItem(boardList, 1, 0);
+        assertEquals(expected, actual);
+    }
 }

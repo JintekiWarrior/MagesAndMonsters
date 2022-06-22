@@ -163,4 +163,52 @@ class GameBoardTest {
         actual = board.isGameBoardItem(boardList, 1, 0);
         assertEquals(expected, actual);
     }
+
+    @Test
+    void moveCharacter()
+    {
+        // test that moveCharacter method works
+        ArrayList<ArrayList <String>> boardList = board.gameBoardListCreate();
+        board.gameBoardListUpdate(boardList, 0, 0, "A");
+        int positionArr[] = board.moveCharacter(boardList, 'd', "A", 0, 0);
+
+        String expected = " ___ ___ ___ ___ ___ ___ ___ ___ ___ \n" +
+                          "|   | A |   |   |   |   |   |   |   |\n" +
+                          "|___|___|___|___|___|___|___|___|___|\n" +
+                          "|   |   |   |   |   |   |   |   |   |\n" +
+                          "|___|___|___|___|___|___|___|___|___|\n" +
+                          "|   |   |   |   |   |   |   |   |   |\n" +
+                          "|___|___|___|___|___|___|___|___|___|\n" +
+                          "|   |   |   |   |   |   |   |   |   |\n" +
+                          "|___|___|___|___|___|___|___|___|___|\n" +
+                          "|   |   |   |   |   |   |   |   |   |\n" +
+                          "|___|___|___|___|___|___|___|___|___|\n" +
+                          "|   |   |   |   |   |   |   |   |   |\n" +
+                          "|___|___|___|___|___|___|___|___|___|\n" +
+                          "|   |   |   |   |   |   |   |   |   |\n" +
+                          "|___|___|___|___|___|___|___|___|___|";
+        String actual = board.gameBoardStringCreate(boardList);
+        assertEquals(expected, actual);
+
+        // test for row out of bounds error
+        int positionArrNew[] = board.moveCharacter(boardList, 'w', "A", 0, 0);
+
+        expected = " ___ ___ ___ ___ ___ ___ ___ ___ ___ \n" +
+                  "|   | A |   |   |   |   |   |   |   |\n" +
+                  "|___|___|___|___|___|___|___|___|___|\n" +
+                  "|   |   |   |   |   |   |   |   |   |\n" +
+                  "|___|___|___|___|___|___|___|___|___|\n" +
+                  "|   |   |   |   |   |   |   |   |   |\n" +
+                  "|___|___|___|___|___|___|___|___|___|\n" +
+                  "|   |   |   |   |   |   |   |   |   |\n" +
+                  "|___|___|___|___|___|___|___|___|___|\n" +
+                  "|   |   |   |   |   |   |   |   |   |\n" +
+                  "|___|___|___|___|___|___|___|___|___|\n" +
+                  "|   |   |   |   |   |   |   |   |   |\n" +
+                  "|___|___|___|___|___|___|___|___|___|\n" +
+                  "|   |   |   |   |   |   |   |   |   |\n" +
+                  "|___|___|___|___|___|___|___|___|___|";
+        actual = board.gameBoardStringCreate(boardList);
+        assertEquals(expected, actual);
+    }
 }

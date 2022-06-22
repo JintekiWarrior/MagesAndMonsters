@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class GameBoard {
+
     // creates a row of squares in the gameBoard
     private ArrayList<String> gameBoardRowListCreate()
     {
@@ -100,8 +101,14 @@ public class GameBoard {
     // row should be 1 - 7 and column 1 - 9
     public void gameBoardListUpdate(ArrayList<ArrayList <String>> arr, int row, int col, String item)
     {
-        if (row < 0 || row > 6) System.out.println("Row out of bounds");
-        if (col < 0 || col > 8) System.out.println("Column is out of bounds");
+        if (row < 0 || row > 6) {
+            System.out.println("Row out of bounds");
+            return;
+        } else if (col < 0 || col > 8)
+        {
+            System.out.println("Column is out of bounds");
+            return;
+        }
         // first column is different then the rest
         if (col == 0)
         {
@@ -117,6 +124,14 @@ public class GameBoard {
     // remove item from the gameBoardList
     public void gameBoardListRemove(ArrayList<ArrayList <String>> arr, int row, int col)
     {
+        if (row < 0 || row > 6) {
+            System.out.println("Row out of bounds");
+            return;
+        } else if (col < 0 || col > 8)
+        {
+            System.out.println("Column is out of bounds");
+            return;
+        }
         // first column is different then the rest
         if (col == 0)
         {
@@ -132,16 +147,98 @@ public class GameBoard {
     // Checks whether a block on the gameBoard is empty
     public boolean isGameBoardItem(ArrayList<ArrayList <String>> arr, int row, int col)
     {
-        if (col == 0)
+        if (row < 0 || row > 6) {
+            System.out.println("Row out of bounds");
+            return true;
+        } else if (col < 0 || col > 8)
         {
-            ArrayList<String> checkRow = arr.get(row);
-            String[] elementArr = checkRow.get(28).split("");
-            String check = (String) Array.get(elementArr, 2);
-            return !check.equals(" ");
+            System.out.println("Column is out of bounds");
+            return true;
         }
         ArrayList<String> checkRow = arr.get(row);
-        String[] elementArr = checkRow.get(col - 1).split("");
-        String check = (String) Array.get(elementArr, 1);
+        String check;
+        String[] elementArr;
+
+        if (col == 0)
+        {
+            elementArr = checkRow.get(28).split("");
+            check = (String) Array.get(elementArr, 2);
+        } else
+        {
+            elementArr = checkRow.get(col - 1).split("");
+            check = (String) Array.get(elementArr, 1);
+        }
+
         return !check.equals(" ");
+    }
+
+    // Moves the character by inputing the current position as well as returns the updated position
+    public int[] moveCharacter(ArrayList<ArrayList <String>> arr, char input, String charSymbol, int row, int col)
+    {
+        int rowPrevious = row;
+        int colPrevious = col;
+        int rowCurrent = row;
+        int colCurrent = col;
+        int rowCheck;
+        int colCheck;
+        int[] position = new int[2];
+
+        switch (input)
+        {
+            case 'w':
+                rowCheck = rowCurrent - 1;
+                // need to use this function as you need to know if the box you are moving to is taken or not.
+                if (!this.isGameBoardItem(arr, rowCheck, colCurrent))
+                {
+                    rowCurrent--;
+                    this.gameBoardListRemove(arr, rowPrevious, colPrevious);
+                    this.gameBoardListUpdate(arr, rowCurrent, colCurrent, charSymbol);
+                    position[0] = rowCurrent;
+                    position[1] = colCurrent;
+                }
+                break;
+            case 's':
+                rowCheck = rowCurrent + 1;
+                if (!this.isGameBoardItem(arr, rowCheck, colCurrent))
+                {
+                    rowCurrent++;
+                    this.gameBoardListRemove(arr, rowPrevious, colPrevious);
+                    this.gameBoardListUpdate(arr, rowCurrent, colCurrent, charSymbol);
+                    position[0] = rowCurrent;
+                    position[1] = colCurrent;
+                }
+                break;
+            case 'd':
+                colCheck = colCurrent + 1;
+                if (!this.isGameBoardItem(arr, rowCurrent, colCheck))
+                {
+                    colCurrent++;
+                    this.gameBoardListRemove(arr, rowPrevious, colPrevious);
+                    this.gameBoardListUpdate(arr, rowCurrent, colCurrent, charSymbol);
+                    position[0] = rowCurrent;
+                    position[1] = colCurrent;
+                }
+                break;
+            case 'a':
+                colCheck = colCurrent - 1;
+                if (!this.isGameBoardItem(arr, rowCurrent, colCheck))
+                {
+                    colCurrent--;
+                    this.gameBoardListRemove(arr, rowPrevious, colPrevious);
+                    this.gameBoardListUpdate(arr, rowCurrent, colCurrent, charSymbol);
+                    position[0] = rowCurrent;
+                    position[1] = colCurrent;
+                }
+                break;
+            default:
+                System.out.println("Wrong input");
+                position[0] = rowPrevious;
+                position[1] = colPrevious;
+        }
+        if (position[0] == 0 && position[1] == 0) {
+            position[0] = rowPrevious;
+            position[1] = colPrevious;
+        }
+        return position;
     }
 }

@@ -28,25 +28,30 @@ public class Main
         GameBoard board = new GameBoard();
         Mage iceMage = new Mage("IceBjorn", "Ice", "I", 15, 3, 20, 2);
         Mage fireMage = new Mage("Margma", "Fire", "F", 8, 5, 12, 5);
-        ArrayList<ArrayList <String>> boardArr = map(board);
-        boardCreate(iceMage.getSymbol(), fireMage.getSymbol(), board, boardArr);
         iceMage.setRowPosition(6);
         iceMage.setColPosition(4);
+        fireMage.setRowPosition(2);
+        fireMage.setColPosition(4);
+        ArrayList<ArrayList <String>> boardArr = map(board, iceMage, fireMage);
+        boardCreate(board, boardArr);
 
         while (true)
         {
             System.out.println("Where would you like to go?");
             char move = gameScanner.next().charAt(0);
-            if (move == 't') break;
+//            if (move == 't') break;
             heroMovement(move, board, iceMage, boardArr);
+            boolean enterCombat = board.isGameBoardItemAround(boardArr, fireMage.getRowPosition(), fireMage.getColPosition());
+            if (enterCombat) break;
         }
+
+        System.out.println("You have entered combat! Get ready to rumble.");
+
         gameScanner.close();
     }
 
-    public static void boardCreate(String heroSymbol, String enemySymbol, GameBoard board, ArrayList<ArrayList <String>> boardArr)
+    public static void boardCreate(GameBoard board, ArrayList<ArrayList <String>> boardArr)
     {
-        board.gameBoardListUpdate(boardArr, 6, 4, heroSymbol);
-        board.gameBoardListUpdate(boardArr, 2, 4, enemySymbol);
         String boardStr = board.gameBoardStringCreate(boardArr);
         System.out.println(boardStr);
     }
@@ -62,9 +67,11 @@ public class Main
         System.out.println(board.gameBoardStringCreate(boardArr));
     }
 
-    public static ArrayList<ArrayList <String>> map(GameBoard board)
+    public static ArrayList<ArrayList <String>> map(GameBoard board, Mage hero, Mage enemy)
     {
         ArrayList<ArrayList <String>> boardArr = board.gameBoardListCreate();
+        board.gameBoardListUpdate(boardArr, hero.getRowPosition(), hero.getColPosition(), hero.getSymbol());
+        board.gameBoardListUpdate(boardArr, enemy.getRowPosition(), enemy.getColPosition(), enemy.getSymbol());
         for (int i = 0; i < boardArr.size(); i++)
         {
             board.gameBoardListUpdate(boardArr, i, 0, "A");

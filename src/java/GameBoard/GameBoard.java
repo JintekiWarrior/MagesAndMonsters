@@ -146,16 +146,16 @@ public class GameBoard {
         }
     }
 
-    // Checks whether a block on the gameBoard is empty
+    // returns true if there is a block on the board
     // used internally
     public boolean isGameBoardItem(ArrayList<ArrayList <String>> arr, int row, int col)
     {
         if (row < 0 || row > 6) {
-            System.out.println("Row out of bounds");
+            System.out.println("Row out of bounds from isGameItem");
             return true;
         } else if (col < 0 || col > 8)
         {
-            System.out.println("Column is out of bounds");
+            System.out.println("Column is out of bounds from isGameItem");
             return true;
         }
         ArrayList<String> checkRow = arr.get(row);
@@ -173,6 +173,25 @@ public class GameBoard {
         }
 
         return !check.equals(" ");
+    }
+
+    // check if there are any elements in the surrounding blocks of an element
+    public boolean isGameBoardItemAround(ArrayList<ArrayList <String>> arr, int row, int col)
+    {
+        boolean isAround = false;
+        int rowCheck = row - 1;
+        while (!isAround && rowCheck <= row + 1)
+        {
+            for (int i = col - 1; i <= col + 1; i++)
+            {
+                if (rowCheck != row || i != col)
+                {
+                    isAround = isGameBoardItem(arr, rowCheck, i);
+                }
+            }
+            rowCheck++;
+        }
+        return isAround;
     }
 
     // Moves the character by inputing the current position as well as returns the updated position

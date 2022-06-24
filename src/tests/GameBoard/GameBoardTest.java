@@ -165,7 +165,7 @@ class GameBoardTest {
     }
 
     @Test
-    void moveCharacter()
+    public void moveCharacter()
     {
         // test that moveCharacter method works
         ArrayList<ArrayList <String>> boardList = board.gameBoardListCreate();

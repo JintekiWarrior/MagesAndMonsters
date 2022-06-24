@@ -75,7 +75,7 @@ public class GameBoard {
         else return startMiddle + gameBoardMid + "\n" + startBottom + gameBoardBot + "\n";
     }
 
-    // method to create the list of the gameBoard
+    // method to create the list of the gameBoard used internally mostly
     public ArrayList gameBoardListCreate()
     {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
@@ -87,6 +87,7 @@ public class GameBoard {
     }
 
     // method to take a list of the gameboard and join it to a string
+    // use externally to display the gameBoard
     public String gameBoardStringCreate(ArrayList<ArrayList <String>> arr)
     {
         String result = "";
@@ -122,6 +123,7 @@ public class GameBoard {
     }
 
     // remove item from the gameBoardList
+    // used internally
     public void gameBoardListRemove(ArrayList<ArrayList <String>> arr, int row, int col)
     {
         if (row < 0 || row > 6) {
@@ -145,6 +147,7 @@ public class GameBoard {
     }
 
     // Checks whether a block on the gameBoard is empty
+    // used internally
     public boolean isGameBoardItem(ArrayList<ArrayList <String>> arr, int row, int col)
     {
         if (row < 0 || row > 6) {
@@ -173,6 +176,8 @@ public class GameBoard {
     }
 
     // Moves the character by inputing the current position as well as returns the updated position
+    // The updated position is returned so that we can recursively use this method as well as keep track of the character
+    // used externally
     public int[] moveCharacter(ArrayList<ArrayList <String>> arr, char input, String charSymbol, int row, int col)
     {
         int rowPrevious = row;
